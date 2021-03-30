@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+    {% block stylesheets %}
+        {# {{ encore_entry_link_tags('app') }} #}
+    {% endblock %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    {% block javascripts %}
+        {# {{ encore_entry_script_tags('app') }} #}
+    {% endblock %}
+</head>
+<body>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <div class="dropdown basket delete-basket" id="basket">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Cart(<span id="count">{{ basket.countProduct }}</span>) item's        </button>
+        <div class="dropdown-menu " style="width: 300px" aria-labelledby="dropdownMenuButton">
+            {% for item in basket.fullBasket %}
+            <div class="dropdown-item" >
+              {{ item.product.id}}  {{ item.product.title }} {{ item.quantity }} x {{ item.product.price }}
+                <button type="button" data-id="{{ item.product.id }}" class="deleteProduct btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+            </div>
+            {% endfor %}
+            <div class="dropdown-item" >Total: <span id="total" style="font-weight: bold">{{ basket.totalSum|number_format(2,'.','') }}</span> €</div>
+        </div>
+    </div>
+
+     <h5 class="my-0 mr-md-auto font-weight-normal"><a href="{{ path('products_index') }}">Product</a></h5>
+
+
+</div>
+
+{% block body %}{% endblock %}
+<div class="modal fade" id="getCodeModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                 <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <div class="message"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="{{ asset('main.js') }}"></script>
+<script src="{{ asset('delete.js') }}"></script>
+<script>
+    setTimeout(function (){
+        $("#getCodeModal").modal('hide');
+    },4000)
+</script>
+</body>
+</html>
